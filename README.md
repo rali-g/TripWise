@@ -1,4 +1,4 @@
-# [Documentation](https://docs.google.com/document/d/1Ia6wiI-w8qjxgvpOtcR0kpLnNqjh2cgOKepuvc_V4c0/edit?usp=sharing)
+# Documentation: [here](https://docs.google.com/document/d/1Ia6wiI-w8qjxgvpOtcR0kpLnNqjh2cgOKepuvc_V4c0/edit?usp=sharing)
 
 # React + TypeScript + Vite
 
