@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Search, ChevronDown, ChevronUp,
-  MapPin, Users, Calendar, ArrowRight, Leaf,
+  MapPin, Users, Calendar, ArrowRight, ArrowLeftRight, Leaf,
   Star, Zap, Shield
 } from 'lucide-react';
 import { POPULAR_DESTINATIONS } from '../utils/mockData';
@@ -26,6 +26,7 @@ export default function HomePage() {
   const [returnDate, setReturnDate] = useState('');
   const [passengers, setPassengers] = useState(1);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [selectedModes, setSelectedModes] = useState<string[]>(['flight', 'train', 'bus']);
   const [maxBudget, setMaxBudget] = useState('');
   const [directOnly, setDirectOnly] = useState(false);
@@ -34,6 +35,14 @@ export default function HomePage() {
   const swapLocations = () => {
     setOrigin(destination);
     setDestination(origin);
+  };
+
+  const toggleTripType = () => {
+    setIsRoundTrip(rt => !rt);
+    if (isRoundTrip) {
+      // switching back to one-way: swap cities so the user sees the reverse direction then goes back
+      swapLocations();
+    }
   };
 
   const handleSearch = () => {
@@ -166,16 +175,17 @@ export default function HomePage() {
               </div>
 
               <button
-                onClick={swapLocations}
-                aria-label="Swap origin and destination"
-                title="Swap"
+                onClick={toggleTripType}
+                aria-label={isRoundTrip ? 'Switch to one-way trip' : 'Switch to round trip'}
+                title={isRoundTrip ? 'Round trip — click for one-way' : 'One way — click for round trip'}
                 style={{
                   width: 44, height: 44, borderRadius: '50%',
-                  border: '1.5px solid var(--color-border)',
-                  backgroundColor: 'var(--color-bg)',
+                  border: `1.5px solid ${isRoundTrip ? '#2563EB' : 'var(--color-border)'}`,
+                  backgroundColor: isRoundTrip ? 'rgba(37,99,235,0.1)' : 'var(--color-bg)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: 'pointer', flexShrink: 0,
-                  transition: 'all 0.2s ease', color: 'var(--color-text-muted)',
+                  transition: 'all 0.2s ease',
+                  color: isRoundTrip ? '#2563EB' : 'var(--color-text-muted)',
                   marginTop: '1.375rem',
                 }}
                 onMouseEnter={e => {
@@ -184,12 +194,14 @@ export default function HomePage() {
                   e.currentTarget.style.borderColor = '#2563EB';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-bg)';
-                  e.currentTarget.style.color = 'var(--color-text-muted)';
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  e.currentTarget.style.backgroundColor = isRoundTrip ? 'rgba(37,99,235,0.1)' : 'var(--color-bg)';
+                  e.currentTarget.style.color = isRoundTrip ? '#2563EB' : 'var(--color-text-muted)';
+                  e.currentTarget.style.borderColor = isRoundTrip ? '#2563EB' : 'var(--color-border)';
                 }}
               >
-                <ArrowRight size={16} aria-hidden="true" />
+                {isRoundTrip
+                  ? <ArrowLeftRight size={16} aria-hidden="true" />
+                  : <ArrowRight size={16} aria-hidden="true" />}
               </button>
 
               <div>
@@ -235,24 +247,25 @@ export default function HomePage() {
                     className="input"
                     value={date}
                     onChange={e => setDate(e.target.value)}
-                    style={{ paddingLeft: '2.5rem', colorScheme: 'light dark' }}
+                    style={{ paddingLeft: '2.5rem' }}
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="return-date" style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.375rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Return <span style={{ fontWeight: 400 }}>(optional)</span>
+                <label htmlFor="return-date" style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.375rem', color: isRoundTrip ? '#2563EB' : 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Return {isRoundTrip ? <span style={{ fontWeight: 700 }}>↩</span> : <span style={{ fontWeight: 400 }}>(optional)</span>}
                 </label>
                 <div style={{ position: 'relative' }}>
-                  <Calendar size={16} aria-hidden="true" style={{ position: 'absolute', left: '0.875rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
+                  <Calendar size={16} aria-hidden="true" style={{ position: 'absolute', left: '0.875rem', top: '50%', transform: 'translateY(-50%)', color: isRoundTrip ? '#2563EB' : 'var(--color-text-muted)' }} />
                   <input
                     id="return-date"
                     type="date"
                     className="input"
                     value={returnDate}
                     onChange={e => setReturnDate(e.target.value)}
-                    style={{ paddingLeft: '2.5rem', colorScheme: 'light dark' }}
+                    required={isRoundTrip}
+                    style={{ paddingLeft: '2.5rem', borderColor: isRoundTrip ? '#2563EB' : undefined, outline: isRoundTrip && !returnDate ? '2px solid rgba(37,99,235,0.3)' : undefined }}
                   />
                 </div>
               </div>
