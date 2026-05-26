@@ -6,6 +6,8 @@ import {
 } from 'lucide-react';
 import { MOCK_ROUTES, buildRoutes } from '../utils/mockData';
 import { formatDuration, formatTime, formatCurrency, TRANSPORT_ICONS } from '../utils/helpers';
+import { addBooking } from '../utils/bookingStore';
+import type { Booking } from '../types';
 
 type Step = 1 | 2 | 3 | 4 | 5;
 type PaymentMethod = 'card' | 'apple' | 'google' | 'points';
@@ -60,9 +62,25 @@ export default function BookingPage() {
     if (step === 2 && !validateStep2()) return;
     if (step === 3 && !validateStep3()) return;
     if (step === 3) {
+      const bookingId = `b_${routeId ?? 'r1'}_${Date.now()}`;
+      const bookingRef = `TW-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const ticketId = Math.random().toString(36).substring(2, 10);
+      const newBooking: Booking = {
+        id: bookingId,
+        bookingRef,
+        route,
+        passengers: [{ ...passenger }],
+        status: 'confirmed',
+        totalPaid: route.totalPrice,
+        currency: route.currency,
+        createdAt: new Date().toISOString(),
+        qrCode: ticketId,
+        ticketId,
+      };
+      addBooking(newBooking);
       setStep(4);
       setTimeout(() => {
-        navigate(`/confirmation/b_${routeId ?? 'r1'}`);
+        navigate(`/confirmation/${bookingId}`);
       }, 2200);
       return;
     }

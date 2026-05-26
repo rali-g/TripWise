@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { MOCK_BOOKINGS, MOCK_NOTIFICATIONS, MOCK_REWARDS } from '../utils/mockData';
+import { getStoredBookings } from '../utils/bookingStore';
 import { formatDate, formatTime, formatCurrency, TRANSPORT_ICONS } from '../utils/helpers';
 import { StatusBadge } from '../components/ui/StatusBadge';
 
@@ -25,8 +26,9 @@ export default function DashboardPage() {
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   const tier = TIER_INFO[user!.loyaltyTier];
-  const upcoming = MOCK_BOOKINGS.filter(b => b.status === 'confirmed');
-  const past = MOCK_BOOKINGS.filter(b => b.status === 'completed');
+  const allBookings = [...getStoredBookings(), ...MOCK_BOOKINGS];
+  const upcoming = allBookings.filter(b => b.status === 'confirmed');
+  const past = allBookings.filter(b => b.status === 'completed');
   const unread = MOCK_NOTIFICATIONS.filter(n => !n.read);
 
   const tabs: { id: Tab; label: string; icon: typeof LayoutDashboard; badge?: number }[] = [
