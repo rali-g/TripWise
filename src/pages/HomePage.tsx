@@ -139,18 +139,12 @@ export default function HomePage() {
           {/* Search card */}
           <div
             className="card"
-            style={{ padding: '1.75rem', boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}
+            style={{ padding: 'clamp(1rem, 4vw, 1.75rem)', boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}
             role="search"
             aria-label="Travel search"
           >
             {/* Origin / Destination row */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr auto 1fr',
-              gap: '0.75rem',
-              alignItems: 'center',
-              marginBottom: '0.75rem',
-            }}>
+            <div className="search-origin-dest">
               <div>
                 <label htmlFor="origin" style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.375rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   From
@@ -178,6 +172,7 @@ export default function HomePage() {
                 onClick={toggleTripType}
                 aria-label={isRoundTrip ? 'Switch to one-way trip' : 'Switch to round trip'}
                 title={isRoundTrip ? 'Round trip — click for one-way' : 'One way — click for round trip'}
+                className="swap-btn"
                 style={{
                   width: 44, height: 44, borderRadius: '50%',
                   border: `1.5px solid ${isRoundTrip ? '#2563EB' : 'var(--color-border)'}`,
@@ -229,12 +224,7 @@ export default function HomePage() {
             </div>
 
             {/* Date / Passengers row */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
-              gap: '0.75rem',
-              marginBottom: '1rem',
-            }}>
+            <div className="search-dates-grid" style={{ marginBottom: '1rem' }}>
               <div>
                 <label htmlFor="departure-date" style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.375rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Departure

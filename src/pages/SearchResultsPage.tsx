@@ -138,10 +138,7 @@ export default function SearchResultsPage() {
             id="filter-panel"
             role="complementary"
             aria-label="Search filters"
-            style={{
-              width: 280, flexShrink: 0,
-              position: 'sticky', top: 136,
-            }}
+            className="filter-sidebar"
           >
             <div className="card" style={{ padding: '1.25rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
@@ -249,7 +246,7 @@ function RouteCard({ route, onBook, onDetails }: { route: Route; onBook: () => v
 
       <div style={{ padding: '1.25rem 1.5rem' }}>
         {/* Main route info */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+        <div className="route-card-row" style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
           {/* Time */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '0 0 auto' }}>
             <div>
@@ -269,7 +266,7 @@ function RouteCard({ route, onBook, onDetails }: { route: Route; onBook: () => v
           </div>
 
           {/* Divider */}
-          <div style={{ width: 1, height: 40, backgroundColor: 'var(--color-border)', flexShrink: 0 }} aria-hidden="true" />
+          <div className="route-card-divider" style={{ width: 1, height: 40, backgroundColor: 'var(--color-border)', flexShrink: 0 }} aria-hidden="true" />
 
           {/* Transport chain */}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -282,7 +279,7 @@ function RouteCard({ route, onBook, onDetails }: { route: Route; onBook: () => v
           </div>
 
           {/* Stats */}
-          <div style={{ display: 'flex', gap: '1rem', flexShrink: 0, flexWrap: 'wrap' }}>
+          <div className="route-card-stats" style={{ display: 'flex', gap: '1rem', flexShrink: 0, flexWrap: 'wrap' }}>
             <div style={{ textAlign: 'center' }}>
               <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', margin: 0, textTransform: 'uppercase', fontWeight: 600 }}>CO₂</p>
               <p style={{ fontSize: '0.8125rem', fontWeight: 600, margin: 0, color: route.co2kg < 5 ? '#16A34A' : route.co2kg < 15 ? '#D97706' : '#DC2626' }}>
@@ -298,12 +295,12 @@ function RouteCard({ route, onBook, onDetails }: { route: Route; onBook: () => v
           </div>
 
           {/* Price & CTA */}
-          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+          <div className="route-card-price" style={{ textAlign: 'right', flexShrink: 0 }}>
             <p style={{ fontWeight: 900, fontSize: '1.5rem', margin: 0, color: 'var(--color-text)' }}>
               {formatCurrency(route.totalPrice, route.currency)}
             </p>
             <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', margin: '0.125rem 0 0.625rem' }}>per person, all included</p>
-            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+            <div className="route-card-actions" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
               <button onClick={onDetails} className="btn-secondary" style={{ fontSize: '0.8125rem', padding: '0.5rem 0.875rem' }}>
                 Details
               </button>

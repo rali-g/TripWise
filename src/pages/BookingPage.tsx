@@ -94,7 +94,7 @@ export default function BookingPage() {
 
           {/* Step indicators */}
           <nav aria-label="Booking steps">
-            <ol style={{ display: 'flex', gap: '0', listStyle: 'none', margin: 0, padding: 0 }}>
+            <ol className="step-bar" style={{ display: 'flex', gap: '0', listStyle: 'none', margin: 0, padding: 0 }}>
               {STEP_LABELS.slice(0, 4).map((label, i) => {
                 const num = i + 1;
                 const isComplete = step > num;
@@ -114,7 +114,7 @@ export default function BookingPage() {
                           : <span style={{ fontSize: '0.75rem', fontWeight: 700, color: isCurrent ? 'white' : 'var(--color-text-muted)' }}>{num}</span>
                         }
                       </div>
-                      <span style={{ fontSize: '0.7rem', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? '#2563EB' : isComplete ? '#16A34A' : 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
+                      <span className="step-label" style={{ fontSize: '0.7rem', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? '#2563EB' : isComplete ? '#16A34A' : 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
                         {label}
                       </span>
                     </div>
